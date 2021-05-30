@@ -52,14 +52,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             startActivity(intent);
         }
 
-        TextView contraPerdida = (TextView) findViewById(R.id.tv_ContraPerdida);
+        /*TextView contraPerdida = (TextView) findViewById(R.id.tv_ContraPerdida);
         contraPerdida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, ContraPerdida.class);
                 startActivity(intent);
             }
-        });
+        }); TODO:Hacer esto para el final*/
 
         //Ponemos un OnClick para que nos haga el registro al pulsar el boton
         login = (Button) findViewById(R.id.but_Login);
