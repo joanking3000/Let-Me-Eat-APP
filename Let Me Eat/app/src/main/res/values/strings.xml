@@ -12,6 +12,7 @@
     <string name="nombreEmpresa">Nombre Empresa</string>
     <string name="login">Login</string>
     <string name="buscar_por_zona">Buscar Por La Zona </string>
+    <string name="reconocer_local">Reconocer el local</string>
     <string name="google_map_key">AIzaSyCTbDuqyG613M6IcGtuYLAMQx8TsJitSlY</string>
     <!--<string name="google_map_key">AIzaSyAV7j1KsVfXT4-brYCtpKbFA3XUkA_E020</string>-->
 </resources>
