@@ -15,9 +15,7 @@
         <activity android:name=".DetallesRestauranteUsuario"></activity>
         <activity android:name=".DetallesRestauranteEmpresa" />
         <activity android:name=".ContraPerdida" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".Home" />
-        <activity android:name=".RegistroEmpresa" />
         <activity android:name=".RegistroUsuario" />
         <activity android:name=".Login" />
         <activity android:name=".Carga">

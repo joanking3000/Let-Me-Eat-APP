@@ -27,7 +27,6 @@ import java.util.List;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
-    FirebaseUser usuario;
 
     Button login;
 
