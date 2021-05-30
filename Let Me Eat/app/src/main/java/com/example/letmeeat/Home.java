@@ -53,13 +53,13 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
     private FusedLocationProviderClient fusedLocationClient;
     private SupportMapFragment mapFragment;
     double latActual = 0, longActual = 0;
-    Button butZona;
+    Button butZona, logout;
     boolean empresa = false; //Este lo usaremos para saber si el usuario actual es una empresa o no
 
     String correoUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     DocumentReference usuarioActual = FirebaseFirestore.getInstance().collection("Usuarios").document(correoUsuarioActual);
 
-
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
 
         //Recolectamos las ids de los componentes que tengamos
         butZona = findViewById(R.id.but_BuscarPorZona);
+        logout = findViewById(R.id.but_LogOut);
 
         //Usaremos el fragmento en el .xml llamado mapa para mostrar el mapa
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -104,8 +105,22 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
             }, 44);
         }
 
+        //Aqui determinamos el funcionamiento del boton de Desconectar usuario
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                desconectarUsuario();
+            }
+        });
 
+    }
 
+    private void desconectarUsuario() {
+        Intent i = new Intent(Home.this, Login.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
     }
 
     @Override
