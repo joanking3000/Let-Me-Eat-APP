@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class RegistroUsuario extends AppCompatActivity implements View.OnClickLi
     EditText email, contrasenia, confirmContra, nombre, apellidos;
     Button registrarse;
     ProgressBar progressBar;
+    Boolean empresa = false;
 
     private FirebaseAuth mAuth;
 
@@ -73,6 +75,11 @@ public class RegistroUsuario extends AppCompatActivity implements View.OnClickLi
             confirmarContra = confirmContra.getText().toString().trim(),
             nom = nombre.getText().toString().trim(),
             apellidosString = apellidos.getText().toString().trim();
+
+        //Comprobamos el checkbox, en caso de que este marcado significara que el usuario nuevo sera una empresa
+        if (((CheckBox) findViewById(R.id.cb_Empresa)).isChecked()){
+            empresa = true;
+        }
 
         //Control de errores
         if (correo.isEmpty()){
@@ -132,7 +139,7 @@ public class RegistroUsuario extends AppCompatActivity implements View.OnClickLi
         infoUsuario.put("Nombre", nom);
         infoUsuario.put("Apellidos", apellidosString);
         infoUsuario.put("Email", correo);
-        infoUsuario.put("Empresa", false);
+        infoUsuario.put("Empresa", empresa);
 
 
 
