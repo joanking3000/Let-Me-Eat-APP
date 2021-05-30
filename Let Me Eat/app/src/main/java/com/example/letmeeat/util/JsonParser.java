@@ -1,4 +1,4 @@
-package com.example.letmeeat;
+package com.example.letmeeat.util;
 
 import com.google.gson.JsonObject;
 
