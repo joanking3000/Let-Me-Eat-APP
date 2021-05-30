@@ -83,6 +83,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
 
+        mAuth = FirebaseAuth.getInstance();
+
         //Recolectamos las ids de los componentes que tengamos
         butZona = findViewById(R.id.but_BuscarPorZona);
         logout = findViewById(R.id.but_LogOut);

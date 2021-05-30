@@ -43,9 +43,7 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivPlato;
-        private final TextView tvTitulo;
-        private final TextView tvDescripcion;
-        private final TextView tvAlgo;
+        private final TextView tvNombrePlato, tvVegano, tvDetalles;
 
         public ViewHolder(View v) {
             super(v);
@@ -57,10 +55,10 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
                 }
             });
 
-            ivPlato = (ImageView) v.findViewById(R.id.imageView4);
-            tvTitulo = (TextView) v.findViewById(R.id.textView4);
-            tvDescripcion = (TextView) v.findViewById(R.id.textView5);
-            tvAlgo = (TextView) v.findViewById(R.id.textView6);
+            ivPlato = (ImageView) v.findViewById(R.id.iv_FotoPlato);
+            tvNombrePlato = (TextView) v.findViewById(R.id.tv_NombrePlato);
+            tvVegano = (TextView) v.findViewById(R.id.tv_EsVegano);
+            tvDetalles = (TextView) v.findViewById(R.id.tv_Detalles);
         }
     }
 
