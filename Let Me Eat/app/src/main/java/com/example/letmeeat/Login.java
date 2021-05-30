@@ -37,11 +37,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    public void registrarEmpresa(View view){
-        Intent intent = new Intent(this.getApplicationContext(), RegistroEmpresa.class);
-        startActivity(intent);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();//Esconderemos la barra de accion que sale por defecto en la parte superior

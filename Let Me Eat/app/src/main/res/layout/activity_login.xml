@@ -45,61 +45,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Email" />
 
-    <CheckBox
-        android:id="@+id/cb_AutoLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/nocerrarsesion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Password" />
-
-    <TextView
-        android:id="@+id/tv_ContraPerdida"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="105dp"
-        android:text="@string/contraperdida"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cb_AutoLogin" />
-
     <Button
-        android:id="@+id/but_RegistrarUsuario"
+        android:id="@+id/but_Registrar"
         android:layout_width="234dp"
         android:layout_height="47dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="124dp"
         android:onClick="registrarUsuario"
-        android:text="Usuario"
+        android:text="@string/registrarse"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_Registrarse" />
-
-    <Button
-        android:id="@+id/but_RegistrarEmpresa"
-        android:layout_width="234dp"
-        android:layout_height="47dp"
-        android:onClick="registrarEmpresa"
-        android:text="Empresa"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/but_RegistrarUsuario" />
-
-    <TextView
-        android:id="@+id/tv_Registrarse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:text="Registrarse"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/but_RegistrarUsuario"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/but_Login" />
 
@@ -107,12 +61,11 @@
         android:id="@+id/but_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginTop="50dp"
         android:text="@string/login"
-        app:layout_constraintBottom_toTopOf="@+id/tv_Registrarse"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ContraPerdida" />
+        app:layout_constraintTop_toBottomOf="@+id/Password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
