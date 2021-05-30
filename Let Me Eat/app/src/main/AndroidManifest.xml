@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.letmeeat">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Permisos de ubicacion -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LetMeEat">
+        <activity android:name=".DetallesRestauranteUsuario"></activity>
+        <activity android:name=".DetallesRestauranteEmpresa" />
+        <activity android:name=".ContraPerdida" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Home" />
+        <activity android:name=".RegistroEmpresa" />
+        <activity android:name=".RegistroUsuario" />
+        <activity android:name=".Login" />
+        <activity android:name=".Carga">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- Insertamos nuestra API -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCTbDuqyG613M6IcGtuYLAMQx8TsJitSlY" /> <!-- La version de google play services que usamos -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+    </application>
+
+</manifest>

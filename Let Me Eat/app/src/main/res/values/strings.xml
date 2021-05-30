@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Let Me Eat</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="contrasenia">Contraseña (min. 6 carácteres)</string>
+    <string name="email">Email</string>
+    <string name="nocerrarsesion">No Cerrar Sesion</string>
+    <string name="contraperdida">Se me ha olvidado la contraseña</string>
+    <string name="confirmarContrasenia">Repite la contraseña</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="nacimiento">Fecha de nacimiento</string>
+    <string name="nombreEmpresa">Nombre Empresa</string>
+    <string name="login">Login</string>
+    <string name="buscar_por_zona">Buscar Por La Zona </string>
+    <string name="google_map_key">AIzaSyCTbDuqyG613M6IcGtuYLAMQx8TsJitSlY</string>
+    <!--<string name="google_map_key">AIzaSyAV7j1KsVfXT4-brYCtpKbFA3XUkA_E020</string>-->
+</resources>
