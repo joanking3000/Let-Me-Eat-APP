@@ -24,10 +24,14 @@ public class JsonParser {
             //Cogemos la longitud del objeto
             String longitud = object.getJSONObject("geometry").getJSONObject("location").getString("lng");
 
+            //cogemos el ID del objeto Places
+            String idPlaces =  object.getString("place_id");
+
             //ponemos todos los valores en el hashmap
             datalist.put("name", name);
             datalist.put("lat", latitud);
             datalist.put("lng", longitud);
+            datalist.put("id", idPlaces);
         } catch (JSONException e) {
             e.printStackTrace();
         }
