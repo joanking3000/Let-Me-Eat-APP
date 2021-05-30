@@ -134,14 +134,16 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
             @Override
             public void onInfoWindowClick(@NonNull Marker marker) {
                 String tituloMarcador =  marker.getTitle();
-
+                String idNegocio =  (String)marker.getTag();
                 if (empresa == true){
                     Intent i = new Intent(Home.this,DetallesRestauranteEmpresa.class);
                     i.putExtra("titulo",tituloMarcador);
+                    i.putExtra("idNegocio",idNegocio);
                     startActivity(i);
                 } else {
                     Intent i = new Intent(Home.this,DetallesRestauranteUsuario.class);
                     i.putExtra("titulo",tituloMarcador);
+                    i.putExtra("idNegocio",idNegocio);
                     startActivity(i);
                 }
             }
@@ -293,6 +295,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
                 double lng = Double.parseDouble(hashMapList.get("lng"));
                 //Cogemos el nombre
                 String name = hashMapList.get("name");
+                //Cogemos el ID
+                String id = hashMapList.get("id");
                 //Concatenamos la latitud con la longitud
                 LatLng latLng = new LatLng(lat, lng);
                 //Inicializamos las marker options
@@ -301,9 +305,11 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
                 opciones.position(latLng);
                 //Ponemos su titulo
                 opciones.title(name);
-                //Añadimos el marcador en el mapa
-                mapa.addMarker(opciones);
 
+                //Añadimos el marcador en el mapa
+                Marker marker = mapa.addMarker(opciones);
+                //Ponemos su id
+                marker.setTag(id);
             }
 
         }
