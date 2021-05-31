@@ -1,5 +1,6 @@
 package com.example.letmeeat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,7 +12,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.letmeeat.util.AdaptadorListaPlatos;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.letmeeat.util.JsonParser;
 import com.google.android.gms.maps.model.LatLng;
@@ -49,8 +53,35 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_restaurante_empresa);
 
-        //Recolectamos la informacion en sus respectivas variables
         claimLocal = findViewById(R.id.reconocer_local);
+
+        String idNegocio = getIntent().getStringExtra("idNegocio");
+        final boolean[] esClaimeado = {false};
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("LocalesClaimeados").document("idNegocio");
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                esClaimeado[0] = true;
+                //TODO: Si no falla, recuperar los PLATOS y anadirlos al Arraylist
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                esClaimeado[0] = false;
+            }
+        });
+
+        if(esClaimeado[0]){
+            claimLocal.setVisibility(View.GONE);
+        }else{
+            //TODO: Poner aqui la logica del boton
+        }
+
+        //Recolectamos la informacion en sus respectivas variables
+
 
         //Procedemos a ponerle un OnClick
         claimLocal.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +90,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                 claimearLocal();
             }
         });
-        String idNegocio = getIntent().getStringExtra("idNegocio");
+
         mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta);
         mLayoutManager = new LinearLayoutManager(this);
         alPlatos = new ArrayList<Platos>();
@@ -84,13 +115,14 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         //Utilizaremos el Firestore del firebase para almacenar nuestra informacion
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+
         Map<String, Object> infoLocalClaimeado = new HashMap<>();
 
         //Añadimos la informacion al hashmap que sera subido a la base de datos
-        infoLocalClaimeado.put("Nombre", nom);
+        /*infoLocalClaimeado.put("Nombre", nom);
         infoLocalClaimeado.put("Apellidos", apellidosString);
         infoLocalClaimeado.put("Email", correo);
-        infoLocalClaimeado.put("Empresa", empresa);
+        infoLocalClaimeado.put("Empresa", empresa);*/
 
         //Procedemos a añadirlo en la coleccion LocalesClaimeados
         db.collection("LocalesClaimeados").document()
@@ -158,7 +190,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
             JSONObject object = null;
             try {
                 object = new JSONObject(strings[0]);
-                mapList = jsonParser.parseResult(object);
+                mapList = jsonParser.parseResultDetalles(object);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

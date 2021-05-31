@@ -70,10 +70,10 @@ public class JsonParser {
 
     public List<HashMap<String, String>> parseResultDetalles(JSONObject object){
         //Inicializamos el JSONArray
-        JSONArray jsonArray = null;
+        JSONObject jsonArray = null;
         //Cogemos el resultado
         try {
-            jsonArray = object.getJSONArray("results");
+            jsonArray = object.getJSONObject("result");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -82,17 +82,13 @@ public class JsonParser {
 
     }
 
-    private List<HashMap<String, String>> parseJsonArrayDetalles(JSONArray jsonArray){
+    private List<HashMap<String, String>> parseJsonArrayDetalles(JSONObject jsonArray){
         //Inicializamos el hashmap
         List<HashMap<String, String>> datalist = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                HashMap<String, String> data = parseJsonObjectDetalles((JSONObject) jsonArray.get(i));
-                //añadimos el data al hashmaplist
-                datalist.add(data);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            HashMap<String, String> data = parseJsonObjectDetalles(jsonArray);
+            //añadimos el data al hashmaplist
+            datalist.add(data);
         }
         return datalist;
     }
