@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.example.letmeeat.util.AdaptadorListaPlatos;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,6 +48,8 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
     protected ArrayList<Platos> alPlatos;
 
     Button claimLocal;
+    String idNegocio;
+    String correoUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getEmail(); //Cogemos el correo del usuario actual
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
 
         claimLocal = findViewById(R.id.reconocer_local);
 
-        String idNegocio = getIntent().getStringExtra("idNegocio");
+        idNegocio = getIntent().getStringExtra("idNegocio");
         final boolean[] esClaimeado = {false};
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -76,21 +81,17 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
 
         if(esClaimeado[0]){
             claimLocal.setVisibility(View.GONE);
-        }else{
-            //TODO: Poner aqui la logica del boton
+        } else {
+            //Procedemos a ponerle un OnClick al boton de claimear
+            claimLocal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    claimearLocal();
+                }
+            });
         }
 
-        //Recolectamos la informacion en sus respectivas variables
-
-
-        //Procedemos a ponerle un OnClick
-        claimLocal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                claimearLocal();
-            }
-        });
-
+        //TODO: Comentar esta seccion
         mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta);
         mLayoutManager = new LinearLayoutManager(this);
         alPlatos = new ArrayList<Platos>();
@@ -119,19 +120,37 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         Map<String, Object> infoLocalClaimeado = new HashMap<>();
 
         //Añadimos la informacion al hashmap que sera subido a la base de datos
-        /*infoLocalClaimeado.put("Nombre", nom);
-        infoLocalClaimeado.put("Apellidos", apellidosString);
-        infoLocalClaimeado.put("Email", correo);
-        infoLocalClaimeado.put("Empresa", empresa);*/
+        infoLocalClaimeado.put("dueño", correoUsuarioActual);
+
+
 
         //Procedemos a añadirlo en la coleccion LocalesClaimeados
-        db.collection("LocalesClaimeados").document()
+        db.collection("LocalesClaimeados").document(idNegocio)
                 .set(infoLocalClaimeado).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                //Toast.makeText();
+                Toast.makeText(DetallesRestauranteEmpresa.this, "Nos pondremos en contacto con la empresa para verificar la autenticidad", Toast.LENGTH_LONG).show();
+                enviarCorreoParaClaimear();
+                claimLocal.setVisibility(View.GONE);
             }
         });
+
+    }
+
+    private void enviarCorreoParaClaimear(){
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, "jjperdiguer@gmail.com");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Solicitud de claimeo para usuario [" + correoUsuarioActual + "]");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "El usuario [" + correoUsuarioActual + "] solicita claimear el negocio con id [" + idNegocio + "]");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Enviando email..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(DetallesRestauranteEmpresa.this, "No hay ninguna app de correo instalada.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
