@@ -67,4 +67,51 @@ public class JsonParser {
         return  parseJsonArray(jsonArray);
 
     }
+
+    public List<HashMap<String, String>> parseResultDetalles(JSONObject object){
+        //Inicializamos el JSONArray
+        JSONArray jsonArray = null;
+        //Cogemos el resultado
+        try {
+            jsonArray = object.getJSONArray("results");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //Devolvemos el array
+        return  parseJsonArrayDetalles(jsonArray);
+
+    }
+
+    private List<HashMap<String, String>> parseJsonArrayDetalles(JSONArray jsonArray){
+        //Inicializamos el hashmap
+        List<HashMap<String, String>> datalist = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                HashMap<String, String> data = parseJsonObjectDetalles((JSONObject) jsonArray.get(i));
+                //añadimos el data al hashmaplist
+                datalist.add(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return datalist;
+    }
+
+    private HashMap<String,String> parseJsonObjectDetalles(JSONObject object){
+        //Iniciamos el hashmap
+        HashMap<String, String> datalist = new HashMap<>();
+        try {
+            //Cogemos el nombre del objeto
+            String name = object.getString("name");
+            boolean localAbierto = object.getJSONObject("opening_hours").getBoolean("open_now");
+
+            //ponemos todos los valores en el hashmap
+            datalist.put("name", name);
+            datalist.put("abierto", String.valueOf(localAbierto));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return datalist;
+    }
 }
