@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LetMeEat">
-        <activity android:name=".DetallesRestauranteUsuario"></activity>
+        <activity android:name=".AgregarPlatos"></activity>
+        <activity android:name=".DetallesRestauranteUsuario" />
         <activity android:name=".DetallesRestauranteEmpresa" />
         <activity android:name=".ContraPerdida" />
         <activity android:name=".Home" />

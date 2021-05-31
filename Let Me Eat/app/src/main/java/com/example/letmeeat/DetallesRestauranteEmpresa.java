@@ -123,6 +123,15 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
 
+        //Le ponemos un OnClick a añadir plato
+        agregarPlato.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DetallesRestauranteEmpresa.this,AgregarPlatos.class);
+                i.putExtra("idNegocio",idNegocio);
+                startActivity(i);
+            }
+        });
     }
 
     private void claimearLocal() {
@@ -145,6 +154,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                 Toast.makeText(DetallesRestauranteEmpresa.this, "Nos pondremos en contacto con la empresa para verificar la autenticidad", Toast.LENGTH_LONG).show();
                 enviarCorreoParaClaimear();
                 claimLocal.setVisibility(View.GONE);
+                agregarPlato.setVisibility(View.VISIBLE);
             }
         });
 

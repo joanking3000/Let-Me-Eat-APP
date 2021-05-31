@@ -15,5 +15,8 @@
     <string name="reconocer_local">Reconocer el local</string>
     <string name="agregar_plato">Añadir un plato</string>
     <string name="google_map_key">AIzaSyCTbDuqyG613M6IcGtuYLAMQx8TsJitSlY</string>
-    <!--<string name="google_map_key">AIzaSyAV7j1KsVfXT4-brYCtpKbFA3XUkA_E020</string>-->
+    <string name="nombreplato">Nombre del plato</string>
+    <string name="precio">Precio</string>
+    <string name="detalles">Detalles</string>
+    <!--<string name="google_map_key">AIzaSyAV7j1KsVfXT4-brYCtpKbFA3XUkA_E020</string> ANTIGUA API-->
 </resources>

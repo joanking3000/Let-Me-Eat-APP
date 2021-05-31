@@ -1,10 +1,16 @@
 package Clases;
 
 public class Platos {
-    private String id;
-    private String titulo;
-    private String descripcion;
-    private String algo;
+    private String id, nombre, detalles;
+    private int precio;
 
-    //Como pollas ponemos la img? ya veremos
+    public Platos(String nombre, String detalles, int precio) {
+        this.nombre = nombre;
+        this.detalles = detalles;
+        this.precio = precio;
+    }
+
+
+    //TODO: Insertar la imagen
+
 }
