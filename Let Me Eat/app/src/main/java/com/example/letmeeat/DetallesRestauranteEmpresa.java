@@ -11,15 +11,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.letmeeat.util.AdaptadorListaPlatos;
-<<<<<<< Updated upstream
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-=======
 import com.example.letmeeat.util.JsonParser;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
->>>>>>> Stashed changes
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Clases.Platos;
@@ -99,9 +97,9 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                 .set(infoLocalClaimeado).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText()
+                //Toast.makeText();
             }
-        })
+        });
     }
 
 
