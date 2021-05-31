@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected ArrayList<Platos> alPlatos;
 
-    Button claimLocal;
+    Button claimLocal, agregarPlato;
     String idNegocio;
     String correoUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getEmail(); //Cogemos el correo del usuario actual
 
@@ -55,27 +56,39 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();//Esconderemos la barra de accion que sale por defecto en la parte superior
 
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_restaurante_empresa);
 
+        //Asignamos las variables con sus componentes
         claimLocal = findViewById(R.id.reconocer_local);
+        agregarPlato = findViewById(R.id.agregar_plato);
 
+        //Recolectamos la informacion pasada desde el otro activity
         idNegocio = getIntent().getStringExtra("idNegocio");
         final boolean[] esClaimeado = {false};
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("LocalesClaimeados").document("idNegocio");
+        DocumentReference docRef = db.collection("LocalesClaimeados").document(idNegocio);
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                esClaimeado[0] = true;
+                if (documentSnapshot.getString("Duenio") != null && documentSnapshot.getString("Duenio").equals(correoUsuarioActual)){
+                    agregarPlato.setVisibility(View.VISIBLE);
+                    esClaimeado[0] = true;
+                    claimLocal.setVisibility(View.GONE);
+                }
                 //TODO: Si no falla, recuperar los PLATOS y anadirlos al Arraylist
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
                 esClaimeado[0] = false;
+                agregarPlato.setVisibility(View.GONE);
+                claimLocal.setVisibility(View.VISIBLE);
             }
         });
 
@@ -102,7 +115,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
 
         new PlaceLugar().execute(url);
 
-        
+
 
 
         mAdapter = new AdaptadorListaPlatos(alPlatos);
@@ -120,7 +133,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         Map<String, Object> infoLocalClaimeado = new HashMap<>();
 
         //Añadimos la informacion al hashmap que sera subido a la base de datos
-        infoLocalClaimeado.put("dueño", correoUsuarioActual);
+        infoLocalClaimeado.put("Duenio", correoUsuarioActual);
 
 
 
