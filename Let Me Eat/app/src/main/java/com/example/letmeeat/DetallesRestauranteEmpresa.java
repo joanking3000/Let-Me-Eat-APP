@@ -12,12 +12,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.letmeeat.util.AdaptadorListaPlatos;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,6 +27,7 @@ import com.example.letmeeat.util.JsonParser;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +39,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +50,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
     protected RecyclerView mRecyclerView;
     protected AdaptadorListaPlatos mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected ArrayList<Platos> alPlatos;
+    protected ArrayList<Platos> alPlatos = new ArrayList<Platos>();
 
     Button claimLocal, agregarPlato;
     String idNegocio;
@@ -55,12 +59,14 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();//Esconderemos la barra de accion que sale por defecto en la parte superior
-
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_restaurante_empresa);
+
+        mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta);
+        mAdapter = new AdaptadorListaPlatos(alPlatos);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(llm);
+        mRecyclerView.setAdapter(mAdapter);
 
         //Asignamos las variables con sus componentes
         claimLocal = findViewById(R.id.reconocer_local);
@@ -81,7 +87,6 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                     esClaimeado[0] = true;
                     claimLocal.setVisibility(View.GONE);
                 }
-                //TODO: Si no falla, recuperar los PLATOS y anadirlos al Arraylist
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -89,6 +94,20 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                 esClaimeado[0] = false;
                 agregarPlato.setVisibility(View.GONE);
                 claimLocal.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //
+        CollectionReference resultadoPlatos = db.collection("LocalesClaimeados").document(idNegocio).collection("Platos");
+        resultadoPlatos.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()){
+                    for (DocumentSnapshot document :queryDocumentSnapshots.getDocuments()) {
+                        alPlatos.add(new Platos(document.getId(), document.getString("Nombre"), document.getString("Detalles"), document.getDouble("Precio")));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -105,9 +124,8 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         }
 
         //TODO: Comentar esta seccion
-        mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta);
-        mLayoutManager = new LinearLayoutManager(this);
-        alPlatos = new ArrayList<Platos>();
+
+
 
         String url = "https://maps.googleapis.com/maps/api/place/details/json"+
                 "?place_id="+idNegocio+
@@ -117,10 +135,6 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
 
 
 
-
-        mAdapter = new AdaptadorListaPlatos(alPlatos);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
 
 
         //Le ponemos un OnClick a añadir plato
@@ -132,6 +146,8 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
     }
 
     private void claimearLocal() {

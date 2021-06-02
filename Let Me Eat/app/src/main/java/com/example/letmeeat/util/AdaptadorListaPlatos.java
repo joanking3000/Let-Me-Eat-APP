@@ -31,9 +31,12 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
         return new ViewHolder(v);
     }
 
-    @Override
-    public void onBindViewHolder(AdaptadorListaPlatos.ViewHolder holder, int position) {
 
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.tvNombrePlato.setText(lPlatos.get(position).getNombre());
+        holder.tvDetalles.setText(lPlatos.get(position).getDetalles());
+        holder.tvPrecio.setText(String.valueOf(lPlatos.get(position).getPrecio())) ;
     }
 
     @Override
@@ -42,8 +45,8 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView ivPlato;
-        private final TextView tvNombrePlato, tvVegano, tvDetalles;
+        //private final ImageView ivPlato;
+        private final TextView tvNombrePlato, tvDetalles, tvPrecio;
 
         public ViewHolder(View v) {
             super(v);
@@ -55,11 +58,12 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
                 }
             });
 
-            ivPlato = (ImageView) v.findViewById(R.id.iv_FotoPlato);
+            //ivPlato = (ImageView) v.findViewById(R.id.iv_FotoPlato);
             tvNombrePlato = (TextView) v.findViewById(R.id.tv_NombrePlato);
-            tvVegano = (TextView) v.findViewById(R.id.tv_EsVegano);
-            tvDetalles = (TextView) v.findViewById(R.id.tv_Detalles);
+            tvDetalles = (TextView) v.findViewById(R.id.tv_EsVegano);
+            tvPrecio = (TextView) v.findViewById(R.id.tv_Detalles);
         }
+
     }
 
 }
