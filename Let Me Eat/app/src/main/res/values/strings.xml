@@ -20,5 +20,6 @@
     <string name="detalles">Detalles</string>
     <string name="editarPlato">Editar Plato</string>
     <string name="eliminarPlato">Eliminar Plato</string>
+    <string name="obtener_platos">Obtener Platos</string>
     <!--<string name="google_map_key">AIzaSyAV7j1KsVfXT4-brYCtpKbFA3XUkA_E020</string> ANTIGUA API-->
 </resources>

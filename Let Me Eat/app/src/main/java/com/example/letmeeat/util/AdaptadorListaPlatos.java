@@ -75,9 +75,15 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
                     i.putExtra("detallesplato", detallesplato);
                     i.putExtra("precioplato", precioplato);
                     i.putExtra("idNegocio", idNegocio);
+
                     context.startActivity(i);
+
+
                 }
             });
+
+
+
 
             //TODO: Esto se usa en algun lugar al final?
             tvNombrePlato = (TextView) v.findViewById(R.id.tv_NombrePlato);

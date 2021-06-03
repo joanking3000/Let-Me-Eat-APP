@@ -1,6 +1,7 @@
 package com.example.letmeeat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -52,7 +54,10 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected ArrayList<Platos> alPlatos = new ArrayList<Platos>();
 
-    Button claimLocal, agregarPlato;
+
+
+
+    Button claimLocal, agregarPlato, obtenerPlatos;
     String idNegocio;
     String correoUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getEmail(); //Cogemos el correo del usuario actual
 
@@ -61,6 +66,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         getSupportActionBar().hide();//Esconderemos la barra de accion que sale por defecto en la parte superior
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_restaurante_empresa);
+
 
         mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta);
         mAdapter = new AdaptadorListaPlatos(alPlatos, mRecyclerView);
@@ -71,6 +77,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         //Asignamos las variables con sus componentes
         claimLocal = findViewById(R.id.reconocer_local);
         agregarPlato = findViewById(R.id.agregar_plato);
+        obtenerPlatos = findViewById(R.id.but_obtenerPlatos);
 
         //Recolectamos la informacion pasada desde el otro activity
         idNegocio = getIntent().getStringExtra("idNegocio");
@@ -86,6 +93,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                     agregarPlato.setVisibility(View.VISIBLE);
                     esClaimeado[0] = true;
                     claimLocal.setVisibility(View.GONE);
+                    obtenerPlatos.setVisibility(View.VISIBLE);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -94,22 +102,12 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                 esClaimeado[0] = false;
                 agregarPlato.setVisibility(View.GONE);
                 claimLocal.setVisibility(View.VISIBLE);
+                obtenerPlatos.setVisibility(View.GONE);
             }
         });
 
         //
-        CollectionReference resultadoPlatos = db.collection("LocalesClaimeados").document(idNegocio).collection("Platos");
-        resultadoPlatos.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()){
-                    for (DocumentSnapshot document :queryDocumentSnapshots.getDocuments()) {
-                        alPlatos.add(new Platos(document.getId(), document.getString("Nombre"), document.getString("Detalles"), document.getDouble("Precio"), idNegocio));
-                    }
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        });
+        //consultarPlatos();
 
         if(esClaimeado[0]){
             claimLocal.setVisibility(View.GONE);
@@ -147,9 +145,40 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
             }
         });
 
+        obtenerPlatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        consultarPlatos();
+        mAdapter.notifyDataSetChanged();
 
     }
 
+
+    private void consultarPlatos(){
+        alPlatos.clear();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference resultadoPlatos = db.collection("LocalesClaimeados").document(idNegocio).collection("Platos");
+        resultadoPlatos.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()){
+                    for (DocumentSnapshot document :queryDocumentSnapshots.getDocuments()) {
+                        alPlatos.add(new Platos(document.getId(), document.getString("Nombre"), document.getString("Detalles"), document.getDouble("Precio"), idNegocio));
+                    }
+
+                }
+            }
+        });
+    }
     private void claimearLocal() {
         //Utilizaremos el Firestore del firebase para almacenar nuestra informacion
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -174,7 +203,12 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
             }
         });
 
+
     }
+
+
+
+
 
     private void enviarCorreoParaClaimear(){
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -260,4 +294,6 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
 
         }
     }
+
+
 }

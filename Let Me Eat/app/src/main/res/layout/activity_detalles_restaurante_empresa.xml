@@ -66,6 +66,13 @@
             android:text="@string/agregar_plato"
             android:visibility="gone" />
 
+        <Button
+            android:id="@+id/but_obtenerPlatos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/obtener_platos"
+            tools:visibility="visible" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_platos_carta"
             android:layout_width="match_parent"

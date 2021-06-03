@@ -250,7 +250,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
         //Inicializamos el StringBuilder
         StringBuilder builder = new StringBuilder();
         //Iniciamos la variable para el String
-        String linia = ""; //TODO: Es linea zorra
+        String linia = "";
         while ((linia = br.readLine()) != null){
             builder.append(linia);
         }
