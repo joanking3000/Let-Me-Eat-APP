@@ -63,7 +63,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         setContentView(R.layout.activity_detalles_restaurante_empresa);
 
         mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta);
-        mAdapter = new AdaptadorListaPlatos(alPlatos);
+        mAdapter = new AdaptadorListaPlatos(alPlatos, mRecyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setAdapter(mAdapter);
@@ -104,7 +104,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()){
                     for (DocumentSnapshot document :queryDocumentSnapshots.getDocuments()) {
-                        alPlatos.add(new Platos(document.getId(), document.getString("Nombre"), document.getString("Detalles"), document.getDouble("Precio")));
+                        alPlatos.add(new Platos(document.getId(), document.getString("Nombre"), document.getString("Detalles"), document.getDouble("Precio"), idNegocio));
                     }
                     mAdapter.notifyDataSetChanged();
                 }

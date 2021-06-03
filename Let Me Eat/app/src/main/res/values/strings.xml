@@ -18,7 +18,7 @@
     <string name="nombreplato">Nombre del plato</string>
     <string name="precio">Precio</string>
     <string name="detalles">Detalles</string>
-    <string name="buscarimagen">Buscar imagen
-    </string>
+    <string name="editarPlato">Editar Plato</string>
+    <string name="eliminarPlato">Eliminar Plato</string>
     <!--<string name="google_map_key">AIzaSyAV7j1KsVfXT4-brYCtpKbFA3XUkA_E020</string> ANTIGUA API-->
 </resources>

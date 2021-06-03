@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AgregarPlatos">
+    tools:context=".EditarDetallesPlato">
 
     <EditText
-        android:id="@+id/et_nombreplato"
+        android:id="@+id/et_nombreplatoedit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/et_detalles"
+        android:id="@+id/et_detallesedit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -32,10 +32,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_nombreplato" />
+        app:layout_constraintTop_toBottomOf="@+id/et_nombreplatoedit" />
 
     <EditText
-        android:id="@+id/et_precio"
+        android:id="@+id/et_precioedit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="101dp"
@@ -46,18 +46,30 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_detalles" />
+        app:layout_constraintTop_toBottomOf="@+id/et_detallesedit" />
 
     <Button
-        android:id="@+id/but_aniadirplato"
+        android:id="@+id/but_editarplato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="121dp"
-        android:layout_marginTop="163dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="121dp"
-        android:text="@string/agregar_plato"
+        android:text="@string/editarPlato"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_precio" />
+        app:layout_constraintTop_toBottomOf="@+id/et_precioedit" />
+
+    <Button
+        android:id="@+id/but_eliminarPlato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="126dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="127dp"
+        android:text="@string/eliminarPlato"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/but_editarplato" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

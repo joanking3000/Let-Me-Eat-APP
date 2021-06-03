@@ -32,7 +32,7 @@ public class AgregarPlatos extends AppCompatActivity {
         idNegocio = getIntent().getStringExtra("idNegocio");
 
         //Declaramos las variables
-        agregarplato = findViewById(R.id.but_insertarplato);
+        agregarplato = findViewById(R.id.but_aniadirplato);
         nombreplato = findViewById(R.id.et_nombreplato);
         detalles = findViewById(R.id.et_detalles);
         precioet = findViewById(R.id.et_precio);
