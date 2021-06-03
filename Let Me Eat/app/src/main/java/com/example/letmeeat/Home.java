@@ -161,6 +161,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
             public void onSuccess(Location location) {
                 if (location != null){
                     mapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @SuppressLint("MissingPermission")
                         @Override
                         public void onMapReady(@NonNull GoogleMap googleMap) {
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -168,7 +169,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback {
                             //Zoom
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                             //Añadimos el marcador al mapa
-                            googleMap.addMarker(opciones);
+                            googleMap.setMyLocationEnabled(true);
+                            //googleMap.addMarker(opciones);
 
                             //Al darle al boton buscara en una zona alrededor todos los restaurantes y les añadira un marker
                             butZona.setOnClickListener(new View.OnClickListener() {

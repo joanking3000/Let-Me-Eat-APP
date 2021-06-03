@@ -1,7 +1,5 @@
 package com.example.letmeeat;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,11 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.letmeeat.util.AdaptadorListaPlatos;
@@ -26,9 +21,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.letmeeat.util.JsonParser;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONException;
@@ -41,7 +33,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,17 +40,16 @@ import java.util.Map;
 import Clases.Platos;
 
 public class DetallesRestauranteEmpresa extends AppCompatActivity {
+    //Declaramos las variables para el recycle view
     protected RecyclerView mRecyclerView;
     protected AdaptadorListaPlatos mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected ArrayList<Platos> alPlatos = new ArrayList<Platos>();
 
-
-
-
     Button claimLocal, agregarPlato, obtenerPlatos;
     String idNegocio;
     String correoUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getEmail(); //Cogemos el correo del usuario actual
+    boolean duenio = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +58,8 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         setContentView(R.layout.activity_detalles_restaurante_empresa);
 
 
-        mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta);
-        mAdapter = new AdaptadorListaPlatos(alPlatos, mRecyclerView);
+        mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta_usuario);
+        mAdapter = new AdaptadorListaPlatos(alPlatos, mRecyclerView, duenio);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setAdapter(mAdapter);
@@ -77,7 +67,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
         //Asignamos las variables con sus componentes
         claimLocal = findViewById(R.id.reconocer_local);
         agregarPlato = findViewById(R.id.agregar_plato);
-        obtenerPlatos = findViewById(R.id.but_obtenerPlatos);
+        obtenerPlatos = findViewById(R.id.but_obtenerPlatos_usuario);
 
         //Recolectamos la informacion pasada desde el otro activity
         idNegocio = getIntent().getStringExtra("idNegocio");
@@ -90,10 +80,20 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.getString("Duenio") != null && documentSnapshot.getString("Duenio").equals(correoUsuarioActual)){
+                    duenio = true;
                     agregarPlato.setVisibility(View.VISIBLE);
                     esClaimeado[0] = true;
                     claimLocal.setVisibility(View.GONE);
                     obtenerPlatos.setVisibility(View.VISIBLE);
+                } else if (!documentSnapshot.getString("Duenio").equals(correoUsuarioActual)){
+                    agregarPlato.setVisibility(View.GONE);
+                    esClaimeado[0] = true;
+                    claimLocal.setVisibility(View.VISIBLE);
+                    claimLocal.setEnabled(false);
+                    claimLocal.setText("Local con dueño");
+                    obtenerPlatos.setVisibility(View.VISIBLE);
+
+
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -105,9 +105,6 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
                 obtenerPlatos.setVisibility(View.GONE);
             }
         });
-
-        //
-        //consultarPlatos();
 
         if(esClaimeado[0]){
             claimLocal.setVisibility(View.GONE);

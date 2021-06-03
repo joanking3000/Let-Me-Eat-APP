@@ -1,5 +1,6 @@
 package com.example.letmeeat.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.letmeeat.DetallesRestauranteEmpresa;
 import com.example.letmeeat.EditarDetallesPlato;
 import com.example.letmeeat.R;
 
@@ -24,10 +26,12 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
     static String idPlato, nombreplato, detallesplato, idNegocio;
     static double precioplato;
     static RecyclerView mRecyclerView;
+    static boolean duenio = false;
 
-    public AdaptadorListaPlatos(ArrayList<Platos>lPlatos, RecyclerView mRecyclerView) {
+    public AdaptadorListaPlatos(ArrayList<Platos>lPlatos, RecyclerView mRecyclerView, boolean duenio) {
         this.lPlatos = lPlatos;
         this.mRecyclerView = mRecyclerView;
+        this.duenio = duenio;
     }
 
     @Override
@@ -42,8 +46,8 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvNombrePlato.setText(lPlatos.get(position).getNombre());
-        holder.tvDetalles.setText(lPlatos.get(position).getDetalles());
-        holder.tvPrecio.setText(String.valueOf(lPlatos.get(position).getPrecio())) ;
+        holder.tvDetalles.setText("Detalles: " +lPlatos.get(position).getDetalles());
+        holder.tvPrecio.setText( "Precio: " + String.valueOf(lPlatos.get(position).getPrecio()) + "€") ;
     }
 
     @Override
@@ -58,31 +62,33 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
             super(v);
             Context context = v.getContext();
 
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int posicion = mRecyclerView.getChildLayoutPosition(v);
+            //Con esto podremos saber el nombre de la clase que accede
+            String nombreActividadEntrante = ((Activity) context).getLocalClassName();
 
-                    idPlato = lPlatos.get(posicion).getId();
-                    nombreplato = lPlatos.get(posicion).getNombre();
-                    detallesplato = lPlatos.get(posicion).getDetalles();
-                    precioplato = lPlatos.get(posicion).getPrecio();
-                    idNegocio = lPlatos.get(posicion).getIdNegocio();
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int posicion = mRecyclerView.getChildLayoutPosition(v);
 
-                    Intent i = new Intent(context, EditarDetallesPlato.class);
-                    i.putExtra("idPlato", idPlato);
-                    i.putExtra("nombreplato", nombreplato);
-                    i.putExtra("detallesplato", detallesplato);
-                    i.putExtra("precioplato", precioplato);
-                    i.putExtra("idNegocio", idNegocio);
+                        idPlato = lPlatos.get(posicion).getId();
+                        nombreplato = lPlatos.get(posicion).getNombre();
+                        detallesplato = lPlatos.get(posicion).getDetalles();
+                        precioplato = lPlatos.get(posicion).getPrecio();
+                        idNegocio = lPlatos.get(posicion).getIdNegocio();
 
-                    context.startActivity(i);
+                        if (nombreActividadEntrante.equals("DetallesRestauranteEmpresa") && duenio == true){
+                        Intent i = new Intent(context, EditarDetallesPlato.class);
+                        i.putExtra("idPlato", idPlato);
+                        i.putExtra("nombreplato", nombreplato);
+                        i.putExtra("detallesplato", detallesplato);
+                        i.putExtra("precioplato", precioplato);
+                        i.putExtra("idNegocio", idNegocio);
 
+                        context.startActivity(i);
+                        }
 
-                }
-            });
-
-
+                    }
+                });
 
 
             //TODO: Esto se usa en algun lugar al final?
