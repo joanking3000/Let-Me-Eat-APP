@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class EditarDetallesPlato extends AppCompatActivity {
 
     String idPlato, idNegocio;
     String nombreplatoold;
-    String detallesplatoold;
+    String detallesplatoold, userActual;
     double precio;
     Button editarplato, eliminarplato;
     EditText nombreplato, detalles, precioet;
@@ -37,6 +38,9 @@ public class EditarDetallesPlato extends AppCompatActivity {
         detallesplatoold = getIntent().getStringExtra("detallesplato");
         precio = getIntent().getDoubleExtra("precioplato", 0);
         idNegocio = getIntent().getStringExtra("idNegocio");
+        userActual = getIntent().getStringExtra("userActual");
+
+
 
         //Declaramos las variables
         editarplato = findViewById(R.id.but_editarplato);
@@ -53,6 +57,17 @@ public class EditarDetallesPlato extends AppCompatActivity {
         //Abrimos la conexion con la base de datos
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> infoPlato = new HashMap<>();
+
+        DocumentReference docref =  db.collection("LocalesClaimeados").document(idNegocio);
+        docref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (!documentSnapshot.getString("Duenio").equals(userActual)){
+                    Toast.makeText(EditarDetallesPlato.this, "El usuario actual no es dueño de este local, pongase en contacto con nosotros", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        });
 
         //Ponemos el OnClick de editarplato
         editarplato.setOnClickListener(new View.OnClickListener() {

@@ -26,12 +26,12 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
     static String idPlato, nombreplato, detallesplato, idNegocio;
     static double precioplato;
     static RecyclerView mRecyclerView;
-    static boolean duenio = false;
+    static String userActual;
 
-    public AdaptadorListaPlatos(ArrayList<Platos>lPlatos, RecyclerView mRecyclerView, boolean duenio) {
+    public AdaptadorListaPlatos(ArrayList<Platos>lPlatos, RecyclerView mRecyclerView, String userActual) {
         this.lPlatos = lPlatos;
         this.mRecyclerView = mRecyclerView;
-        this.duenio = duenio;
+        this.userActual = userActual;
     }
 
     @Override
@@ -76,13 +76,14 @@ public class AdaptadorListaPlatos extends RecyclerView.Adapter<AdaptadorListaPla
                         precioplato = lPlatos.get(posicion).getPrecio();
                         idNegocio = lPlatos.get(posicion).getIdNegocio();
 
-                        if (nombreActividadEntrante.equals("DetallesRestauranteEmpresa") && duenio == true){
+                        if (nombreActividadEntrante.equals("DetallesRestauranteEmpresa")){
                         Intent i = new Intent(context, EditarDetallesPlato.class);
                         i.putExtra("idPlato", idPlato);
                         i.putExtra("nombreplato", nombreplato);
                         i.putExtra("detallesplato", detallesplato);
                         i.putExtra("precioplato", precioplato);
                         i.putExtra("idNegocio", idNegocio);
+                        i.putExtra("userActual", userActual);
 
                         context.startActivity(i);
                         }

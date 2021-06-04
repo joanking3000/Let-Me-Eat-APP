@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.letmeeat.util.AdaptadorListaPlatos;
 import com.example.letmeeat.util.JsonParser;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,6 +45,7 @@ public class DetallesRestauranteUsuario extends AppCompatActivity {
 
     String idNegocio;
     Button obtenerPlatos;
+    String correoUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     boolean duenio = false;
 
     @Override
@@ -55,7 +57,7 @@ public class DetallesRestauranteUsuario extends AppCompatActivity {
 
         //Iniciamos el recycleview
         mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta_usuario);
-        mAdapter = new AdaptadorListaPlatos(alPlatos, mRecyclerView, duenio);
+        mAdapter = new AdaptadorListaPlatos(alPlatos, mRecyclerView, correoUsuarioActual);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setAdapter(mAdapter);

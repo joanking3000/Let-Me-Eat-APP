@@ -59,7 +59,7 @@ public class DetallesRestauranteEmpresa extends AppCompatActivity {
 
 
         mRecyclerView = (RecyclerView) this.findViewById(R.id.rv_platos_carta_usuario);
-        mAdapter = new AdaptadorListaPlatos(alPlatos, mRecyclerView, duenio);
+        mAdapter = new AdaptadorListaPlatos(alPlatos, mRecyclerView, correoUsuarioActual);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setAdapter(mAdapter);
